@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>Blog</title>
+</head>
+<style>
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    table {
+        width: 100%;
+        text-align: center;
+    }
+
+    table tr > td {
+        padding: 20px 0;
+        border: solid 1px lightgray;
+    }
+</style>
+<body>
+<table id="main_table">
+    <tr>
+        <td><script>console.log('Alive!');</script></td>
+    </tr>
+</table>
+<input type="text" id="input_text" /> <button onclick="addComment()">Add comment</button>
+</body>
+<script type="text/javascript">
+    function getComments(callBackFn) {
+        var xmlHttpRequest = new XMLHttpRequest();
+        xmlHttpRequest.open("GET", "http://localhost:8000/api/comment", true);
+        xmlHttpRequest.onreadystatechange = function () {
+            if (xmlHttpRequest.readyState != 4 || xmlHttpRequest.status != 200) return;
+            callBackFn(JSON.parse(xmlHttpRequest.responseText));
+        };
+        xmlHttpRequest.send();
+    }
+
+    var tableContainer = document.getElementById('main_table');
+    var callBack = function(comments) {
+        console.log('comments', comments);
+        for (var index = 0; index < comments.length; index++) {
+            addNewCommentToTable(comments[index].description)
+        }
+    };
+
+    function addComment() {
+        var comment = document.getElementById('input_text').value;
+
+        var xmlHttpRequest = new XMLHttpRequest();
+        xmlHttpRequest.open("POST", "http://localhost:8000/api/comment", true);
+        xmlHttpRequest.onreadystatechange = function () {
+            if (xmlHttpRequest.readyState != 4 || xmlHttpRequest.status != 200) return;
+            addNewCommentToTable(comment);
+
+        };
+    }
+
+    function addNewCommentToTable(description) {
+        var row = tableContainer.insertRow(tableContainer.rows.length);
+        var cell = row.insertCell(0);
+
+        var text = document.createElement('span');
+        text.innerHTML = description;
+        cell.appendChild(text);
+    }
+
+    getComments(callBack);
+</script>
+</html>

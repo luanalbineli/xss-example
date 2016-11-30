@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+    head
+        title= pageTitle
+        script(type='text/javascript').
+        style(type='text/css').
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            table {
+                width: 100%;
+                text-align: center;
+            }
+
+            table tr > td {
+                padding: 20px 0;
+                border: solid 1px lightgray;
+            }
+
+    body
+        h1 Exemplo de ataque XSS - Persistente
+        table
+            each comment in comments
+                tr
+                    td!=comment.description
