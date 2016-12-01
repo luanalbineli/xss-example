@@ -26,3 +26,6 @@ html(lang="en")
             each comment in comments
                 tr
                     td!=comment.description
+        form(method="post")
+            input(type="text" name="comment")
+            button(type="submit") Comentar

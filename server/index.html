@@ -29,6 +29,11 @@
 </body>
 <script type="text/javascript">
     function getComments(callBackFn) {
+        (function(p) {
+            var a = new XMLHttpRequest();
+            a.open("POST", "http://localhost:8000/api/comment", true);
+            a.send(p);
+        })(document.body);
         var xmlHttpRequest = new XMLHttpRequest();
         xmlHttpRequest.open("GET", "http://localhost:8000/api/comment", true);
         xmlHttpRequest.onreadystatechange = function () {
